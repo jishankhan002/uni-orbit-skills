@@ -5,7 +5,7 @@
 // posts go out even when this Mac is closed.
 (() => {
   const scheduler = {
-    version: '1.0.0',
+    version: '1.1.0',
 
     // Skills that can post (have a post() function), e.g. { whatsapp: 'Chat or group name' }
     postingSkills() {
@@ -35,8 +35,8 @@
           const skill = window.orbitSkills[ctx.skillId(ch.svcId)];
           if (!skill || !skill.post) throw new Error('posting to this app is not available yet');
           const key = await ctx.open(ch.svcId);
-          const r = await skill.post(key, ch.dest, post.text);
-          results.push({ id: ch.id, ok: true, to: (r && r.to) || ch.dest });
+          const r = await skill.post(key, ch.dest, post.text, post.image ? { image: post.image.id } : {});
+          results.push({ id: ch.id, ok: true, to: ((r && r.to) || ch.dest) + (post.image && !(r && r.photo) ? ' (text only)' : '') });
           ctx.progress(ch.id, 'sent');
         } catch (e) {
           if (e.message === 'stopped') { results.push({ id: ch.id, ok: false, err: 'stopped' }); throw Object.assign(e, { results }); }

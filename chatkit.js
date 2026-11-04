@@ -57,7 +57,7 @@
   // Click a button by its visible text (e.g. "Chat", "Next") inside an optional scope.
   function pButton(SEL, words) {
     const vis = (e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0; };
-    const els = [...document.querySelectorAll('button, [role="button"], div[tabindex="0"]')].filter(vis);
+    const els = [...document.querySelectorAll('button, [role="button"], [role="menuitem"], [role="link"], a, div[tabindex="0"]')].filter(vis).reverse();
     const el = els.find((e) => words.some((w) => e.textContent.replace(/\s+/g, ' ').trim().toLowerCase() === w.toLowerCase() && e.getAttribute('aria-disabled') !== 'true' && !e.disabled));
     if (!el) return null;
     const b = el.getBoundingClientRect();
@@ -95,6 +95,13 @@
       result: (key, dest) => run(key, pResult, dest),
       button: (key, words) => run(key, pButton, words),
       focusClear: (key, which) => run(key, pFocusClear, which),
+      clickButton: async (key, words, timeout = 6000) => {
+        const b = await waitFor(() => run(key, pButton, words), timeout);
+        if (!b) return false;
+        await A().clickAt(key, b.x, b.y); await A().sleep(300);
+        return true;
+      },
+      pageHas: (key, re) => A().exec(key, `new RegExp(${JSON.stringify(re)}, 'i').test(document.body.innerText)`),
     };
 
     const skill = {
@@ -146,11 +153,11 @@
       },
 
       // Used by Scheduled posts and the assistant: post `text` to one destination.
-      async post(key, dest, text) {
+      async post(key, dest, text, opts = {}) {
         const st = await this.waitReady(key, 30000);
         if (st === 'login') throw new Error(def.title + ' is not logged in on this Mac');
         if (st !== 'ready') throw new Error(def.title + ' did not finish loading');
-        if (def.post) return def.post.call(this, key, dest, text, h);
+        if (def.post) return def.post.call(this, key, dest, text, h, opts || {});
         const name = await this.openDest(key, dest);
         await A().sleep(400);
         await this.send(key, text);
@@ -161,7 +168,7 @@
   }
 
   window.orbitSkills = window.orbitSkills || {};
-  window.orbitSkills.chatkit = { version: '1.0.0', make };
+  window.orbitSkills.chatkit = { version: '1.1.0', make };
   // Skill files may load before or after this one: build whatever is waiting.
   window.__orbitBuild = () => Object.values(window.__orbitDefs || {}).forEach((d) => { window.orbitSkills[d.id] = make(d); });
   window.__orbitBuild();
