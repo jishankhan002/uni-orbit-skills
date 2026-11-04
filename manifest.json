@@ -1,4 +1,4 @@
 {
- "payload": "{\"feed\":1,\"version\":1793813645059,\"published\":\"2026-11-04T17:34:05.059Z\",\"app\":{\"latest\":\"1.0.0\",\"download\":\"\"},\"skills\":[{\"id\":\"whatsapp\",\"title\":\"WhatsApp\",\"file\":\"whatsapp.js\",\"version\":\"1.0.0\",\"sha256\":\"9418e583d7587e5433e25676a55bbdaeed8233011d78bef35eb73ffd268cdf91\",\"bytes\":9080}]}",
- "signature": "ERL1mee2KbbH726AS4fbfKqhW2Hu4WI37mVRjGoMiKXjOeWtc2FxULGe0lAYEhoV7IEBq/2ZaAwP847SJVgJCQ=="
+ "payload": "{\"feed\":1,\"version\":1793814859850,\"published\":\"2026-11-04T17:54:19.850Z\",\"app\":{\"latest\":\"1.0.0\",\"download\":\"\"},\"skills\":[{\"id\":\"whatsapp\",\"title\":\"WhatsApp\",\"file\":\"whatsapp.js\",\"version\":\"1.1.0\",\"sha256\":\"61580cf007c15e0eb120a99633c5b50ab35abbdbb4c5fe12cb22dc81824f3936\",\"bytes\":9844},{\"id\":\"scheduler\",\"title\":\"Scheduled posts\",\"file\":\"scheduler.js\",\"version\":\"1.0.0\",\"sha256\":\"e8d45095f088e51100119e49200ac853c195b5890fbe4eadb6d6f2dd024d3023\",\"bytes\":2841}]}",
+ "signature": "4wABcEfkZYtaMOPbKtZ2RwJL2uo1idNRQDXw2M+OUJQQ+p/ORZmCp0IMoq02Z1s0nVjKeBSCOwDqkLaGkqHHBQ=="
 }

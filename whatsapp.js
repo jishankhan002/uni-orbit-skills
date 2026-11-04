@@ -177,5 +177,21 @@
     },
   };
 
+  // Used by the scheduler: post `text` to one destination (a chat or group name).
+  whatsapp.version = '1.1.0';
+  whatsapp.destLabel = 'Chat or group name';
+  whatsapp.post = async function (key, dest, text) {
+    const st = await this.waitReady(key, 30000);
+    if (st === 'login') throw new Error('WhatsApp is not linked on this Mac');
+    if (st !== 'ready') throw new Error('WhatsApp did not finish loading');
+    let name = dest;
+    const exact = await run(key, pRowPoint, dest);
+    if (!exact) { const found = await this.findChats(key, dest); if (!found.length) throw new Error('no chat named "' + dest + '"'); name = found[0]; }
+    await this.openChat(key, name);
+    await A().sleep(400);
+    await this.send(key, text);
+    return { to: name };
+  };
+
   window.orbitSkills = Object.assign(window.orbitSkills || {}, { whatsapp });
 })();
